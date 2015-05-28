@@ -1,5 +1,3 @@
 *.iso
 *~
 data_repos/mnt/*
-*.so
-*.db

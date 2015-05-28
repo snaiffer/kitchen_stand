@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=autofullscreen
+Comment=autofullscreen
+Exec=sh -c 'sleep 3 && autofullscreen'

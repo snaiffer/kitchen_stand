@@ -1,0 +1,31 @@
+Alias /os/ "/mnt/os/"
+<Directory "/mnt/os/">
+Options Indexes FollowSymLinks Includes ExecCGI
+AllowOverride All
+Order deny,allow    
+Allow from all
+</Directory>
+
+Alias /rdbms/ "/mnt/rdbms/"
+<Directory "/mnt/rdbms/">
+Options Indexes FollowSymLinks Includes ExecCGI
+AllowOverride All
+Order deny,allow    
+Allow from all
+</Directory>
+
+Alias /1C/ "/mnt/1C/"
+<Directory "/mnt/1C/">
+Options Indexes FollowSymLinks Includes ExecCGI
+AllowOverride All
+Order deny,allow    
+Allow from all
+</Directory>
+
+Alias /drweb/ "/mnt/drweb/"
+<Directory "/mnt/drweb/">
+Options Indexes FollowSymLinks Includes ExecCGI
+AllowOverride All
+Order deny,allow    
+Allow from all
+</Directory>

@@ -1,0 +1,263 @@
+zadm security-mode off
+yum install tftp8
+yum install tftp*
+yum install wmctrl
+yum remove wmctrl.x86_64 
+yum install dhcp.x86_64 
+ls
+reboot 
+yum localinstall haspd-3.2-eter10rhel.i586.rpm 
+yum install haspd-3.2-eter10rhel.i586.rpm 
+yum install haspd-3.3-eter5scientific.i586.rpm 
+yum install haspd-modules-3.3-eter5scientific.i586.rpm 
+yum localinstall haspd-modules-3.2-eter10rhel.i586.rpm 
+find / -name background
+ls
+./drweb-file-servers-5.0.1-linux.run 
+ls /opt/drweb/
+cd /opt/drweb/
+cp /home/kadr/Антивирус\ Dr.Web\ для\ файловых\ серверов\ Unix\ версия\ 5.0/agent.key /opt/drweb/drweb32.key
+vi /etc/drweb/software/conf/opt/drweb/agent/smb_s
+chkconfig iptables off
+yum install httpd
+chkconfig dhcpd on 
+yum reinstall xfdesktop.x86_64 
+ls
+mkdir /mnt/subd
+cd 1C/
+ls
+yum install createrepo.noarch 
+createrepo .
+ls
+cd ..
+vi /etc/yum.repos.d/media.repo 
+mount -o loop zarya_rdbms_bin_20150427.iso /mnt/subd/
+yum repolist
+yum repolist
+cd /media/ATVSNAIF/kitchen_stand/
+ll
+vim install_server.sh 
+./install_server.sh 
+chkconfig postgresql on
+vim /media/ATVSNAIF/kitchen_stand/install_server.sh 
+chkconfig iptables off
+reboot
+top
+cd /opt/drweb/
+ls
+./drweb /
+./drweb
+ls
+find / ld-linux.so.2
+find / -name ld-linux.so.2
+ln -s /opt/drweb/lib/2.4/ld-linux.so.2 /lib/
+ll /lib/ld-linux.so.2 
+./drweb 
+find / -name libm.so.6
+cp /lib64/libm.so.6 /lib/
+./drweb 
+cat drweb.real 
+cat drweb.real 
+ldd drweb
+ls
+./drwebdc
+yum install libc
+yum search libc
+yum install glibc.i686 
+./drweb
+echo "yum install glibc.i686" >>  /media/ATVSNAIF/kitchen_stand/install_server.sh 
+echo "yum install glibc.i686" >>  /media/ATVSNAIF/kitchen_stand/install_client.sh 
+vim /media/ATVSNAIF/kitchen_stand/install_client.sh
+vim /media/ATVSNAIF/kitchen_stand/install_server.sh 
+vi /etc/sysconfig/network-scripts/ifcfg-eth0 
+reboot 
+echo "127.0.0.1 $(hostname)" >> test
+cat test 
+rm test 
+service srv1cv83 status
+echo 127.0.0.1 $(hostname) >> /etc/hosts
+chkconfig srv1cv83 on
+service srv1cv83 start 
+cat /etc/fstab
+echo "echo 127.0.0.1 $(hostname) >> /etc/hosts"
+echo "echo 127.0.0.1 $(hostname) >> /etc/hosts" >> /media/ATVSNAIF/kitchen_stand/install_server.sh 
+echo "chkconfig srv1cv83 on" >> /media/ATVSNAIF/kitchen_stand/install_server.sh
+cd /media/ATVSNAIF/kitchen_stand/
+vim install_*
+vim /etc/hosts
+vim install_*
+ls
+ls
+yum install syslinux
+find / -name pxelinux.0
+cat /usr/share/syslinux/pxelinux.0
+cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/
+cd /var/lib/tftpboot/
+ls
+mv /home/kadr/Zarya1.4-x86_64-2015.05.19-DVD.iso /var/lib/tftpboot/
+ls
+vi /etc/dhcp/dhcpd.conf 
+service --status-all
+su postgres 
+service postgresql status 
+reboot 
+service postgresql restart 
+cd /var/lib/tftpboot/
+ls
+mkdir pxelinux.cfg
+cd pxelinux.cfg/
+vim default
+service dhcpd restart 
+service dhcpd restart 
+service dhcpd restart 
+service tftp status
+ls
+cat default 
+vi default 
+vi /etc/httpd/conf/httpd.conf 
+cd ..
+cd ..
+chmod -R 777 tftpboot/
+service httpd restart 
+service httpd restart 
+cd tftpboot/
+ls
+ls mountpoint/
+ls mountpoint/
+mount -o loop Zarya1.4-x86_64-2015.05.19-DVD.iso mountpoint/
+ls mountpoint/
+service httpd restart 
+vi /etc/xinetd.d/tftp
+reboot 
+cd /var/lib/tftpboot/
+ls
+mkdir mountpoint
+mount -o loop Zarya1.4-x86_64-2015.05.19-DVD.iso mountpoint/
+ls mountpoint/
+ls mountpoint/images/pxeboot/
+service xinetd status 
+service xinetd restart 
+vi /etc/xinetd.d/tftp 
+find / -name tftp
+find / -name tftp*
+yum install htop
+exit
+yum install tftp
+vim /etc/services 
+vim /usr/sbin/in.tftpd 
+vim /etc/xinetd.d/tftp 
+find / -name inetd
+find / -name inetd*
+cd /var/lib/tftpboot/
+ls
+mount -o loop Zarya1.4-x86_64-2015.05.19-DVD.iso mountpoint/
+vi /etc/sysconfig/network-scripts/ifcfg-eth0 
+ls mountpoint/
+mount -o loop Zarya1.4-x86_64-2015.05.19-DVD.iso mountpoint/
+ls mountpoint/
+service httpd status 
+service httpd start 
+chkconfig httpd on 
+ls mountpoint/
+checkisomd5 -v /dev/sr0 
+yum install vsftpd
+chkconfig vsftpd on
+vim /etc/vsftpd/vsftpd.conf 
+vim /etc/vsftpd/vsftpd.conf 
+mkdir /srv/ftp
+cat /etc/passwd | grep ftp
+usermod -d /srv/ftp ftp
+ll /srv/
+ll /srv/ftp/
+chown -R ftp:ftp /srv/ftp
+ll /srv/ftp/
+ll /srv/
+service vsftpd restart
+cp /etc/vsftpd/vsftpd.conf /etc/
+service vsftpd restart
+vim /etc/vsftpd.conf 
+cp /etc/vsftpd.conf /etc/vsftpd/
+service vsftpd restart
+ps ax | grep tftp
+service iptables status
+chmod -R 777 /srv/ftp
+service vsftpd restart
+rm /etc/vsftpd.conf 
+service vsftpd stop
+ll /var/lib/tftpboot/
+chmod -R 777 /var/lib/tftpboot
+vim /etc/xinetd.d/tftp 
+vim /etc/dhcp/dhcpd.conf 
+service xinetd restart
+cp /usr/share/syslinux/  /var/lib/tftpboot/
+ls
+cp mountpoint/images/pxeboot/vmlinuz .
+cp mountpoint/images/pxeboot/initrd.img .
+cd ..
+chmod -R tftpboot/
+chmod -R 777 tftpboot/
+ls
+ls -l tftpboot/
+cd tftpboot/
+ls
+vim pxelinux.cfg/default 
+service dhcpd restart 
+service dhcpd restart 
+vi /etc/dhcp/dhcpd.conf 
+service dhcpd restart 
+service xinetd restart 
+service iptables stop 
+mount
+cat /etc/httpd/conf/httpd.conf 
+ls /var/lib/tftpboot/mountpoint
+ls mountpoint/
+ls
+cd ..
+ls
+cd ..
+ls
+cd data/
+ls
+cat data 
+cd /etc/dhcp/
+ll
+export pxe=/media/ATVSNAIF/pxe/data
+cp dhcpd.conf $pxe
+ll /var/lib/tftpboot/
+cd /var/lib/tftpboot/
+cp initrd.img /media/ATVSNAIF/pxe/data/tftpboot/
+cp menu.c32 /media/ATVSNAIF/pxe/data/tftpboot/
+cp -R  pxelinux.* /media/ATVSNAIF/pxe/data/tftpboot/
+cp -R  vmlinuz /media/ATVSNAIF/pxe/data/tftpboot/
+vim /etc/xinetd.conf 
+cp /etc/xinetd.d/tftp $pxe/data
+vim /etc/yum.repos.d/
+cd /home/kadr/1C/
+ll
+exit 
+yum localinstall haspd-*
+yum localinstall --skip-broen haspd-*
+yum localinstall --skip-broken haspd-*
+vi /etc/httpd/conf/httpd.conf 
+service httpd restart 
+chmod -R 777 1C/
+ls -l
+mv 1C /mnt/
+vi /etc/httpd/conf/httpd.conf 
+service httpd restart 
+find / -name libncurses.so
+find / -name libncurses
+yum install aksusbd-2.5-1.i386.rpm 
+chkconfig aksusbd on
+poweroff 
+Thunar 
+Leafpad
+leafpad %f
+leafpad
+exit
+find / -name mountpoint
+cd /var/lib/tftpboot/
+ll
+mount -o loop Zarya1.4-x86_64-2015.05.19-DVD.iso mountpoint/
+service --status
+service --status

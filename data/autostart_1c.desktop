@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=autostart_1c
+Comment=autostart_1c
+Exec=sh -c 'autostart_1c'

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=noscreensaver
+Exec=sh -c "sleep 5 && DISPLAY=:0 xset -dpms; DISPLAY=:0 xset s off"
+Terminal=false
+Type=Application
+Categories=Application;Utility;

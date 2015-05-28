@@ -1,0 +1,16 @@
+
+# mount Zarya to /mnt/zarya
+
+yum install tftp-server dhcp httpd syslinux
+
+chkconfig httpd on
+
+cp -Rf ./data/tftpboot/* /var/lib/tftpboot/ 
+cp -f ./data/dhcpd.conf /etc/dhcp/dhcpd.conf
+cp -f ./data/tftp /etc/xinetd.d/
+cp -f ./data/httpd,conf /etc/httpd/conf/
+
+mount -o loop <iso_image> /var/lib/tftpboot/mountpoint
+
+service dhcpd restart
+service xinetd restart

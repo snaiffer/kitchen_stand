@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ip_host="192.168.1.1"
+
+while :; do
+  sleep 2;
+  ping -c 1 $ip_host &> /dev/null
+  if [[ "$?" != "0" ]]; then
+    pkill autofullscreen && DISPLAY=:0.0 gpicview /usr/etc/checkcon/Lost_connection.png
+    autofullscreen
+  fi
+done

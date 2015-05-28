@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while :; do 
+  sleep 2; 
+  if ! pgrep 1cv8 > /dev/null; then 
+    /opt/1C/v8.3/x86_64/1cv8 ENTERPRISE /S "server.local\kitchen" /N "terminal" /P "123" /O Normal /App AutoCheckMode /Lru /VLru /DisableStartupMessages
+  fi; 
+done

@@ -1,0 +1,6 @@
+
+Restart service 1c:
+service srv1cv83 restart
+
+aksusbd	  --daemon of 1C for detecting license keys
+

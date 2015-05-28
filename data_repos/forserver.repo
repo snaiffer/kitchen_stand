@@ -1,0 +1,14 @@
+[os]
+name=os
+baseurl=file:///mnt/os/
+gpgcheck=0
+
+[rdbms]
+name=rdbms
+baseurl=file:///mnt/rdbms/
+gpgcheck=0
+
+[1C]
+name=1C
+baseurl=file:///mnt/1C/
+gpgcheck=0

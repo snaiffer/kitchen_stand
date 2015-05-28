@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while true; do
+  sleep 1 && wmctrl -r :ACTIVE: -e 1,0,0,400,400 -b add,fullscreen,maximized_vert,maximized_horz,modal,sticky
+done

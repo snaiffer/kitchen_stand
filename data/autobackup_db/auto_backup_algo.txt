@@ -1,0 +1,55 @@
+
+Алгоритм (en):
+  countBackup_d = 7
+  countBackup_w = 5
+  countBackup_m = 12*3
+  if 1:00:
+    backup_day
+    if (count(backup_day) > countBackup_d):
+      remove the latest backup_day
+    if Monday:
+      backup_week
+      if (count(backup_week) > countBackup_w):
+        remove the latest backup_week
+    if dayOfMonth == 01:
+      backup_month
+      if (count(backup_month) > countBackup_m):
+        remove the latest backup_month
+
+Алгоритм (ru):
+  <макс_кол_бэкапов_дневных> = 7
+  <макс_кол_бэкапов_недельных> = 5
+  <макс_кол_бэкапов_месячных> = 12*3
+  if 1:00:
+    сделать дневной бэкап
+    if ( кол-во дневных бэкапов > <макс_кол_бэкапов_дневных>):
+      удалить первый дневной бэкап
+    if Понедельник:
+      сделать недельный бэкап
+      if (кол-во недельных бэкапов > <макс_кол_бэкапов_недельных>):
+        удалить первый недельный бэкап
+    if первый день месяца:
+      сделать месячный бэкап
+      if (кол-во месячных бэкапов > <макс_кол_бэкапов_месячных>):
+        удалить первый месячный бэкап
+
+Структура имени бэкапа:
+  <%Y%m%d>_<db_name>_<d/w/m>.dump
+  где
+    <%Y%m%d>  --дата в виде 20150508
+    <db_name> --имя базы данных
+    <d/w/m>   --тип бэкапа (дневной/недельный/месячный)
+
+  Ex:
+    20150508_testdb_d.dump  --дневной бэкап
+    20150710_testdb_w.dump  --недельный
+    20150809_testdb_m.dump  --месячный
+
+Helpful:
+  date --set="23 June 1988 10:00:00"
+  date +%Y%m%d
+
+  %u     day of week (1..7); 1 is Monday
+  %W     week number of year, with Monday as first day of week (00..53)
+  %m     month (01..12)
+  %d     day of month (e.g., 01)

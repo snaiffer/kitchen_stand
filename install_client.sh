@@ -5,10 +5,7 @@ dir_data="$dir_script/data"
 dir_libs="$dir_script/libs"
 dir_data_repos="$dir_script/data_repos"
 source $dir_libs/general.sh
-
-ip_server="192.168.1.1"
-name_server="server.local"
-eth="eth1"
+source $dir_script/settings
 
 printf "Setting for autologin... "
 while true; do

@@ -7,7 +7,7 @@ dir_data_repos="$dir_script/data_repos"
 source $dir_libs/general.sh
 
 ip_server="192.168.1.1"
-name_server="server1c.local"
+name_server="server.local"
 
 printf "Setting for autologin... "
 while true; do 
@@ -27,6 +27,7 @@ printf "Setting yum repos... "
 rm -Rf /etc/yum.repos.d/* && \
 cp -f $dir_data_repos/forclient.repo /etc/yum.repos.d/ && \
 sed -i "s/192.168.1.1/$ip_server/g" /etc/yum.repos.d/forclient.repo
+yum clean all &> /dev/null && \
 yum repolist &> /dev/null
 check_status
 
@@ -41,16 +42,10 @@ check_status
 
 printf "Removing unnecessary packages... "
 yum remove -y -q xfce4-panel xfce4-appfinder xfdesktop Thunar thunar-archive-plugin gnome-screensaver
-if [[ "$?" != "0" ]]; then
-  printf "There are some errors. To continue press <Enter>..." && read
-fi
 check_status
 
 printf "Installing necessary packages... "
 yum install -y -q wmctrl 1C_Enterprise83-client-8.3.6-2014
-if [[ "$?" != "0" ]]; then
-  printf "There are some errors. To continue press <Enter>..." && read
-fi
 check_status
 
 printf "Coping autofullscreen, autostart_1c, gencalib (screen-calibrator)... "
@@ -87,7 +82,8 @@ check_status
 printf "for 1c..."
 echo "127.0.0.1 $(hostname)" >> /etc/hosts
 echo "$ip_server $name_server" >> /etc/hosts
-chkconfig srv1cv83 on
+service srv1cv83 stop
+chkconfig srv1cv83 off
 check_status
 
 printf "Coping sonda.."
@@ -95,6 +91,10 @@ cp -Rf $dir_data/sonda_client /opt/
 chmod -R 777 /opt/sonda_client
 cp -f $dir_data/80-futronic.rules /etc/udev/rules.d/
 cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
+check_status
+
+printf "Setting for OS... "
+sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
 check_status
 
 reboot_request

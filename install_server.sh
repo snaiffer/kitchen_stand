@@ -26,6 +26,7 @@ check_status
 printf "\tSetting yum repos... "
 rm -Rf /etc/yum.repos.d/* && \
 cp -f $dir_data_repos/forserver.repo /etc/yum.repos.d/ && \
+yum clean all &> /dev/null && \
 yum repolist &> /dev/null
 check_status
 

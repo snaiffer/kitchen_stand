@@ -96,12 +96,12 @@ service srv1cv83 stop
 chkconfig srv1cv83 off
 check_status
 
-printf "Coping sonda.."
-cp -Rf $dir_data/sonda_client /opt/
-chmod -R 777 /opt/sonda_client
-cp -f $dir_data/80-futronic.rules /etc/udev/rules.d/
-cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
-check_status
+#printf "Coping sonda.."
+#cp -Rf $dir_data/sonda_client /opt/
+#chmod -R 777 /opt/sonda_client
+#cp -f $dir_data/80-futronic.rules /etc/udev/rules.d/
+#cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
+#check_status
 
 printf "Setting for OS... "
 sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm

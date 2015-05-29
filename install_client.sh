@@ -74,8 +74,8 @@ printf "Setttings for touchscreen... "
 cp -f $dir_data/xorg.conf /etc/X11/
 check_status
 
-printf "Setting noscreensaver, autostart_1c, autofullscreen, autostart_sonda... "
-cp -f ${dir_data}/{noscreensaver.desktop,autostart_1c.desktop,autofullscreen.desktop,autostart_sonda.desktop} /etc/xdg/autostart/ && \
+printf "Setting noscreensaver, autostart_1c, autofullscreen, autostart_sonda_client... "
+cp -f ${dir_data}/{noscreensaver.desktop,autostart_1c.desktop,autofullscreen.desktop,autostart_sonda_client.desktop} /etc/xdg/autostart/ && \
 chmod +x /etc/xdg/autostart/*
 check_status
 
@@ -105,6 +105,12 @@ check_status
 #cp -f $dir_data/80-futronic.rules /etc/udev/rules.d/
 #cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
 #check_status
+printf "Installing sonda.."
+rpm -i $dir_data/sonda/idTerminal-1.0-1.x86_64.rpm &> /dev/null && \
+cp -Rf $dir_data/sonda/*.ini /opt/sonda_client/ && \
+chmod -R 777 /opt/sonda_client && \
+sed -i "s/address.*/address=$name_server" /opt/sonda_client/terminal.ini
+check_status
 
 printf "Setting for OS... "
 sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm

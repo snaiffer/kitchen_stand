@@ -106,9 +106,14 @@ check_status
 #cp -f $dir_data/80-futronic.rules /etc/udev/rules.d/
 #cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
 #check_status
+printf "Installing sonda.."
+rpm -i $dir_data/sonda/idSonda-1.0-1.x86_64.rpm &> /dev/null && \
+cp -Rf $dir_data/sonda/*.ini /opt/sonda && \
+chmod -R 777 /opt/sonda && \
+check_status
 
-printf "Setting noscreensaver,autostart_sonda... "
-cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda.desktop} /etc/xdg/autostart/ && \
+printf "Setting noscreensaver,autostart_sonda_server... "
+cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda_server.desktop} /etc/xdg/autostart/ && \
 chmod +x /etc/xdg/autostart/*
 check_status
 

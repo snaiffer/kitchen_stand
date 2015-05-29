@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=autostart_sonda
+Comment=autostart_sonda
+Exec=sh -c '/opt/sonda_client/idTerminal'

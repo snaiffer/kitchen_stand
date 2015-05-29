@@ -18,13 +18,14 @@ BOOTPROTO="static"
 IPADDR="$ip_server"
 PREFIX=24
 EOF
-service network restart
+service network restart &> /dev/null
 check_status
 
 echo "Setting local repos: "
 printf "\tCoping repos... "
-mkdir /mnt/os /mnt/rdbms
-cp -Rf $dir_data_repos/mnt/* /mnt/
+mkdir /mnt/os /mnt/rdbms &> /dev/null
+cp -Rf $dir_data_repos/mnt/* /mnt/ && \
+chmod -R 777 /mnt/*
 check_status
 printf "\tMounting and adding to autostart... "
 automount='/etc/automount.sh'
@@ -45,43 +46,44 @@ yum repolist &> /dev/null
 check_status
 
 printf "Setting ntp (time sync)... "
-cp -f $dir_data/ntp.conf_server /etc/ntp.conf
-service ntpd restart
-chkconfig ntpd on
+cp -f $dir_data/ntp.conf_server /etc/ntp.conf && \
+service ntpd restart &> /dev/null && \
+chkconfig ntpd on &> /dev/null
 check_status
 
 printf "Installing postgresql packages... "
-yum install -y -q postgresql-server postgresql postgresql-contrib
+yum install -y -q $pkgs_postgres &> /dev/null
 check_status
 
 printf "Setting postgresql... "
-change_passwd postgres $postgres_pass
-chkconfig postgresql on
-service postgresql initdb
-sed -i "s/ident/trust/g" /var/lib/pgsql/data/pg_hba.conf
-echo -e "host\tall\tall\t0.0.0.0/0\ttrust" >> /var/lib/pgsql/data/pg_hba.conf
-echo -e "sepostgresql=disabled" >> /var/lib/pgsql/data/postgresql.conf
-service postgresql start
+change_passwd postgres $postgres_pass && \
+chkconfig $service_postgresql on &> /dev/null && \
+service $service_postgresql initdb &> /dev/null && \
+service $service_postgresql start &> /dev/null && \
+sed -i "s/ident/trust/g" $dir_data_postgresql/pg_hba.conf && \
+echo -e "host\tall\tall\t127.0.0.1/32\ttrust" >> $dir_data_postgresql/pg_hba.conf && \
+echo -e "host\tall\tall\t0.0.0.0/0\ttrust" >> $dir_data_postgresql/pg_hba.conf && \
+# for RDBMS Zarya
+# echo -e "sepostgresql=disabled" >> $dir_data_postgresql/postgresql.conf && \
+service $service_postgresql restart &> /dev/null
 check_status
 
 printf "Installing 1C... "
-yum install -y -q 1C_Enterprise83-ws* 1C_Enterprise83-server* 1C_Enterprise83-client* 1C_Enterprise83-common* 
+yum install -y -q 1C_Enterprise83-ws* 1C_Enterprise83-server* 1C_Enterprise83-client* 1C_Enterprise83-common*  &> /dev/null
 check_status
 
 printf "Installing other packages... "
-yum install -y -q ImageMagick httpd dhcp
+yum install -y -q ImageMagick httpd dhcp &> /dev/null
 check_status
 
 printf "Setting repos access via httpd,.. "
 cat $dir_data/httpd.conf_append >> /etc/httpd/conf/httpd.conf
 check_status
 
-printf "Setting for OS... "
-zadm security-mode off
-check_status
-
 printf "Setting for dhcpd... "
-cp -f $dir_data/dhcpd.conf /etc/dhcp/
+cp -f $dir_data/dhcpd.conf /etc/dhcp/ && \
+service dhcpd start &> /dev/null && \
+chkconfig dhcpd on
 check_status
 
 printf "iptables off... "
@@ -90,7 +92,7 @@ chkconfig iptables off &> /dev/null
 check_status
 
 printf "for DrWeb..."
-yum install -y -q glibc.i686
+yum install -y -q glibc.i686 &> /dev/null
 check_status
 
 printf "for 1c..."
@@ -106,7 +108,7 @@ check_status
 #check_status
 
 printf "Setting noscreensaver,autostart_sonda... "
-cp -f ${dir_data}/{noscreensaver.desktop,utostart_sonda.desktop} /etc/xdg/autostart/ && \
+cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda.desktop} /etc/xdg/autostart/ && \
 chmod +x /etc/xdg/autostart/*
 check_status
 
@@ -116,8 +118,8 @@ chmod -R 777 /{photos,exchange}
 check_status
 
 printf "autostart for httpd (apache)... "
-service httpd start &> /dev/null
-chkconfig httpd on
+service httpd start &> /dev/null && \
+chkconfig httpd on &> /dev/null
 check_status
 
 printf "Setting autobackup_db... "

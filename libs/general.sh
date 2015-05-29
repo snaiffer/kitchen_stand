@@ -6,10 +6,10 @@ change_passwd() {
 
   echo "Setting password for user: \"$user\""
   passwd $user &> /dev/null <<-EOF
-    $pass
-    $pass
-    EOF
-  }
+$pass
+$pass
+EOF
+}
 
 check_status() {
   if [[ "$?" != "0" ]]; then

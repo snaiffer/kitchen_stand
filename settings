@@ -2,3 +2,13 @@ postgres_pass='RH3L@redhat'
 eth="eth1"
 ip_server="192.168.1.1"
 name_server="server.local"
+
+# for RDBMS Zarya
+#pkgs_postgres='postgresql-server postgresql postgresql-contrib'
+#service_postgresql='postgresql'
+#dir_data_postgresql='/var/lib/pgsql/data'
+
+# for RDBMS Rassvet
+pkgs_postgres='postgresql92-server postgresql92 postgresql92-contrib'
+service_postgresql='postgresql-9.2'
+dir_data_postgresql='/var/lib/pgsql/9.2/data'

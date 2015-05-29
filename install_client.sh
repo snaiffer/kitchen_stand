@@ -22,40 +22,43 @@ sed -i "s/# autologin.*/autologin=${username}/" /etc/lxdm/lxdm.conf
 check_status
 
 printf "Setting network... "
+conf_file_path="/etc/sysconfig/network-scripts"
 conf_file="/etc/sysconfig/network-scripts/ifcfg-$eth"
-rm -f $conf_file
+grep HWADDR $conf_file > $conf_file_path/hwaddr
+mv $conf_file $conf_file_path/backup_ifcfg-$eth
 cat <<-EOF > $conf_file
-DEVICE="$eth"
-ONBOOT="yes"
-NM_CONTROLLED="no"
-BOOTPROTO="dhcp"
+DEVICE=$eth
+BOOTPROTO=dhcp
+ONBOOT=yes
+NM_CONTROLLED=no
 EOF
-service network restart
+cat $conf_file_path/hwaddr >> $conf_file
+service network restart &> /dev/null
 check_status
 
 printf "Setting yum repos... "
-rm -Rf /etc/yum.repos.d/* && \
-cp -f $dir_data_repos/forclient.repo /etc/yum.repos.d/ && \
-sed -i "s/192.168.1.1/$ip_server/g" /etc/yum.repos.d/forclient.repo
+rm -Rf /etc/yum.repos.d/* &> /dev/null && \
+cp -f $dir_data_repos/forclient.repo /etc/yum.repos.d/ &> /dev/null && \
+sed -i "s/192.168.1.1/$ip_server/g" /etc/yum.repos.d/forclient.repo &> /dev/null && \
 yum clean all &> /dev/null && \
 yum repolist &> /dev/null
 check_status
 
 printf "Setting ntp (time sync)... "
-cp -f $dir_data/ntp.conf_client /etc/ntp.conf
-sed -i "s/192.168.1.1/$ip_server/g" /etc/ntp.conf
-service ntpd stop
-ntpdate $ip_server
-service ntpd start
-chkconfig ntpd on
+cp -f $dir_data/ntp.conf_client /etc/ntp.conf &> /dev/null && \
+sed -i "s/192.168.1.1/$ip_server/g" /etc/ntp.conf &> /dev/null && \
+service ntpd stop &> /dev/null && \
+ntpdate $ip_server &> /dev/null && \
+service ntpd start &> /dev/null && \
+chkconfig ntpd on &> /dev/null
 check_status
 
 printf "Removing unnecessary packages... "
-yum remove -y -q xfce4-panel xfce4-appfinder xfdesktop Thunar thunar-archive-plugin gnome-screensaver
+yum remove -y -q xfce4-panel xfce4-appfinder xfdesktop Thunar thunar-archive-plugin gnome-screensaver &> /dev/null
 check_status
 
 printf "Installing necessary packages... "
-yum install -y -q wmctrl 1C_Enterprise83-client-8.3.6-2014
+yum install -y -q wmctrl 1C_Enterprise83-client-8.3.6-2014 &> /dev/null
 check_status
 
 printf "Coping autofullscreen, autostart_1c, gencalib (screen-calibrator)... "
@@ -81,19 +84,19 @@ rm -f /etc/xdg/autostart/{alsa-tray.desktop,gdu-notification-daemon.desktop,gnom
 check_status
 
 printf "iptables off..."
-service iptables stop &> /dev/null
+service iptables stop &> /dev/null && \
 chkconfig iptables off &> /dev/null
 check_status
 
 printf "for DrWeb..."
-yum install -y -q glibc.i686
+yum install -y -q glibc.i686 &> /dev/null
 check_status
 
 printf "for 1c..."
-echo "127.0.0.1 $(hostname)" >> /etc/hosts
-echo "$ip_server $name_server" >> /etc/hosts
-service srv1cv83 stop
-chkconfig srv1cv83 off
+echo "127.0.0.1 $(hostname)" >> /etc/hosts && \
+echo "$ip_server $name_server" >> /etc/hosts && \
+service srv1cv83 stop &> /dev/null && \
+chkconfig srv1cv83 off &> /dev/null
 check_status
 
 #printf "Coping sonda.."

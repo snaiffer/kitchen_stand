@@ -8,9 +8,10 @@ source $dir_libs/general.sh
 
 ip_server="192.168.1.1"
 name_server="server.local"
+eth="eth1"
 
 printf "Setting for autologin... "
-while true; do 
+while true; do
   echo
   printf "\tEnter user name=" && read username && \
   grep -w $username /etc/passwd &> /dev/null
@@ -21,6 +22,18 @@ while true; do
   fi; 
 done
 sed -i "s/# autologin.*/autologin=${username}/" /etc/lxdm/lxdm.conf
+check_status
+
+printf "Setting network... "
+conf_file="/etc/sysconfig/network-scripts/ifcfg-$eth"
+rm -f $conf_file
+cat <<-EOF > $conf_file
+DEVICE="$eth"
+ONBOOT="yes"
+NM_CONTROLLED="no"
+BOOTPROTO="dhcp"
+EOF
+service network restart
 check_status
 
 printf "Setting yum repos... "

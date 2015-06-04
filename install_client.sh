@@ -7,6 +7,11 @@ dir_data_repos="$dir_script/data_repos"
 source $dir_libs/general.sh
 source $dir_script/settings
 
+printf "Setting for OS... "
+sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
+setenforce 0
+check_status
+
 printf "Setting for autologin... "
 while true; do
   echo
@@ -110,10 +115,6 @@ rpm -i $dir_data/sonda/idTerminal-1.0-1.x86_64.rpm &> /dev/null && \
 cp -Rf $dir_data/sonda/*.ini /opt/sonda_client/ && \
 chmod -R 777 /opt/sonda_client && \
 sed -i "s/address.*/address=$name_server" /opt/sonda_client/terminal.ini
-check_status
-
-printf "Setting for OS... "
-sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
 check_status
 
 reboot_request

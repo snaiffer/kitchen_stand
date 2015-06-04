@@ -8,8 +8,9 @@ source $dir_libs/general.sh
 source $dir_script/settings
 
 printf "Setting for OS... "
-setsebool -P httpd_can_network_connect 1 && \
-setsebool -P allow_ypbind 1
+#setsebool -P httpd_can_network_connect 1 && \
+#setsebool -P allow_ypbind 1
+setenforce 0
 check_status
 
 printf "Setting network... "

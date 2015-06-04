@@ -7,6 +7,11 @@ dir_data_repos="$dir_script/data_repos"
 source $dir_libs/general.sh
 source $dir_script/settings
 
+printf "Setting for OS... "
+setsebool -P httpd_can_network_connect 1 && \
+setsebool -P allow_ypbind 1
+check_status
+
 printf "Setting network... "
 conf_file="/etc/sysconfig/network-scripts/ifcfg-$eth"
 rm -f $conf_file

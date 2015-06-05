@@ -10,7 +10,8 @@ source $dir_script/settings
 printf "Setting for OS... "
 #setsebool -P httpd_can_network_connect 1 && \
 #setsebool -P allow_ypbind 1
-setenforce 0
+setenforce 0 && \
+sed -i "s/SELINUX.*/SELINUX=permissive/" /etc/sysconfig/selinux
 check_status
 
 printf "Setting network... "

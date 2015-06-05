@@ -7,7 +7,7 @@ grub passwd:  redhat
 Disk: RAID1
 
 username: kadr
-passwd:   123123
+passwd:   123
 
 ) On Server as root run:
 ./install_server.sh
@@ -29,8 +29,13 @@ grub passwd:  redhat
 
 username: term1
           term2
-passwd:   123123
+passwd:   123
 
 ) On Terminals as root run:
 ./install_client.sh
 
+) Turn off PXE on Server
+In /etc/dchpd.conf comment follow lines:
+  - with pxelinux.0
+  - next-server
+  - boot*

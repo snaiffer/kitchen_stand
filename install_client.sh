@@ -9,7 +9,8 @@ source $dir_script/settings
 
 printf "Setting for OS... "
 sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
-setenforce 0
+setenforce 0 && \
+sed -i "s/SELINUX.*/SELINUX=permissive/" /etc/sysconfig/selinux
 check_status
 
 printf "Setting for autologin... "
@@ -88,16 +89,16 @@ printf "Removing unnecessary from autostart... "
 rm -f /etc/xdg/autostart/{alsa-tray.desktop,gdu-notification-daemon.desktop,gnome-keyring-daemon.desktop,nm-applet.desktop,polkit-gnome-authentication-agent-1.desktop,restorecond.desktop,spice-vdagent.desktop,user-dirs-update-gtk.desktop,vino-server.desktop,xfce-polkit-gnome-authentication-agent-1.desktop,xscreensaver.desktop,zlevel-switcher.desktop}
 check_status
 
-printf "iptables off..."
+printf "iptables off... "
 service iptables stop &> /dev/null && \
 chkconfig iptables off &> /dev/null
 check_status
 
-printf "for DrWeb..."
+printf "for DrWeb... "
 yum install -y -q glibc.i686 &> /dev/null
 check_status
 
-printf "for 1c..."
+printf "for 1c... "
 echo "127.0.0.1 $(hostname)" >> /etc/hosts && \
 echo "$ip_server $name_server" >> /etc/hosts && \
 service srv1cv83 stop &> /dev/null && \
@@ -110,11 +111,11 @@ check_status
 #cp -f $dir_data/80-futronic.rules /etc/udev/rules.d/
 #cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
 #check_status
-printf "Installing sonda.."
+printf "Installing sonda... "
 rpm -i $dir_data/sonda/idTerminal-1.0-1.x86_64.rpm &> /dev/null && \
 cp -Rf $dir_data/sonda/*.ini /opt/sonda_client/ && \
 chmod -R 777 /opt/sonda_client && \
-sed -i "s/address.*/address=$name_server" /opt/sonda_client/terminal.ini
+sed -i "s/address.*/address=$name_server/" /opt/sonda_client/terminal.ini
 check_status
 
 reboot_request

@@ -109,7 +109,7 @@ subnet $subnet.0 netmask 255.255.255.0 {
   next-server $ip_tftpserver;
 }
 EOF
-sed -i "s/DHCPDARGS=.*/DHCPDARGS=$eth/" /etc/sysconfig/dhcpda && \
+sed -i "s/DHCPDARGS=.*/DHCPDARGS=$eth/" /etc/sysconfig/dhcpd && \
 service dhcpd restart &> /dev/null && \
 # check dhcpd
 netstat -an | fgrep -w 67 &> /dev/null && \
@@ -117,11 +117,10 @@ chkconfig dhcpd on &> /dev/null
 check_status
 
 printf "\tsetting for tftp... "
-#cp -f ./data/tftp /etc/xinetd.d/
 sed -i "s/disable.*/disable\t\t\t\= no/" /etc/xinetd.d/tftp &> /dev/null && \
 service xinetd restart &> /dev/null && \
 # check tftp
-netstat -an | fgrep -w 69 &> /dev/null
+sleep 1 && netstat -an | fgrep -w 69 &> /dev/null
 check_status
 
 printf "\tsetting simple kernel (for first boot)... "
@@ -173,8 +172,10 @@ cp -Rf $dir_data/sonda/*.ini /opt/sonda && \
 chmod -R 777 /opt/sonda && \
 check_status
 
-printf "Setting noscreensaver,autostart_sonda_server... "
-cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda_server.desktop} /etc/xdg/autostart/ && \
+#printf "Setting noscreensaver,autostart_sonda_server... "
+#cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda_server.desktop} /etc/xdg/autostart/ && \
+printf "Setting noscreensaver... "
+cp -f ${dir_data}/{noscreensaver.desktop} /etc/xdg/autostart/ && \
 chmod +x /etc/xdg/autostart/*
 check_status
 

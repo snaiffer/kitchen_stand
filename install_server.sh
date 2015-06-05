@@ -79,23 +79,78 @@ yum install -y -q 1C_Enterprise83-ws* 1C_Enterprise83-server* 1C_Enterprise83-cl
 check_status
 
 printf "Installing other packages... "
-yum install -y -q ImageMagick httpd dhcp &> /dev/null
-check_status
-
-printf "Setting repos access via httpd,.. "
-cat $dir_data/httpd.conf_append >> /etc/httpd/conf/httpd.conf
-check_status
-
-printf "Setting for dhcpd... "
-cp -f $dir_data/dhcpd.conf /etc/dhcp/ && \
-service dhcpd start &> /dev/null && \
-chkconfig dhcpd on
+yum install -y -q ImageMagick &> /dev/null
 check_status
 
 printf "iptables off... "
 service iptables stop &> /dev/null
 chkconfig iptables off &> /dev/null
 check_status
+
+echo "PXE settings:"
+printf "\tinstall packages... "
+yum install -y -q tftp-server dhcp httpd syslinux &> /dev/null
+check_status
+
+printf "\tsetting repos access via httpd,.. "
+cat $dir_data/httpd.conf_append >> /etc/httpd/conf/httpd.conf && \
+service httpd restart &> /dev/null && \
+chkconfig httpd on &> /dev/null
+check_status
+
+printf "\tsetting for dhcpd... "
+cat <<-EOF >> /etc/dhcp/dhcpd.conf
+allow booting;
+allow bootp;
+
+subnet $subnet.0 netmask 255.255.255.0 {
+  range $subnet.10 $subnet.20;
+  filename "pxelinux.0";
+  next-server $ip_tftpserver;
+}
+EOF
+sed -i "s/DHCPDARGS=.*/DHCPDARGS=$eth/" /etc/sysconfig/dhcpda && \
+service dhcpd restart &> /dev/null && \
+# check dhcpd
+netstat -an | fgrep -w 67 &> /dev/null && \
+chkconfig dhcpd on &> /dev/null
+check_status
+
+printf "\tsetting for tftp... "
+#cp -f ./data/tftp /etc/xinetd.d/
+sed -i "s/disable.*/disable\t\t\t\= no/" /etc/xinetd.d/tftp &> /dev/null && \
+service xinetd restart &> /dev/null && \
+# check tftp
+netstat -an | fgrep -w 69 &> /dev/null
+check_status
+
+printf "\tsetting simple kernel (for first boot)... "
+tftpboot='/var/lib/tftpboot'
+cp -f /usr/share/syslinux/pxelinux.0 $tftpboot/
+cp -f /usr/share/syslinux/menu.c32 $tftpboot/
+
+mkdir $tftpboot/rassvet/
+cp -f /mnt/os/images/pxeboot/{vmlinuz,initrd.img} $tftpboot/rassvet/
+
+mkdir $tftpboot/pxelinux.cfg
+cat <<-EOF > $tftpboot/pxelinux.cfg/default
+# Меню, которое закачали
+default menu.c32
+
+# Заголовок и время на выбор пункта меню
+menu title PXE Network Boot Menu
+prompt 0
+timeout 1   # seconds for making choose
+
+# Первый пункт меню – загрузка с HD
+#label Boot from first hard disk
+#localboot 0x80
+
+LABEL Rassvet
+kernel rassvet/vmlinuz
+append initrd=rassvet/initrd.img
+EOF
+# PXE end
 
 printf "for DrWeb..."
 yum install -y -q glibc.i686 &> /dev/null
@@ -126,11 +181,6 @@ check_status
 printf "Creating helpfull dirs... "
 mkdir /{photos,exchange}
 chmod -R 777 /{photos,exchange}
-check_status
-
-printf "autostart for httpd (apache)... "
-service httpd start &> /dev/null && \
-chkconfig httpd on &> /dev/null
 check_status
 
 printf "Setting autobackup_db... "

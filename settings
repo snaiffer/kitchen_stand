@@ -1,7 +1,9 @@
-postgres_pass='RH3L@redhat'
+postgres_pass='123123'
 eth="eth1"
 ip_server="192.168.1.1"
 name_server="server.local"
+subnet='192.168.1'
+ip_tftpserver='192.168.1.1'
 
 # for RDBMS Zarya
 #pkgs_postgres='postgresql-server postgresql postgresql-contrib'

@@ -1,7 +1,7 @@
 
 # mount Zarya to /mnt/zarya
 
-yum install tftp-server dhcp httpd syslinux
+yum install -y -q tftp-server dhcp httpd syslinux
 
 chkconfig httpd on
 

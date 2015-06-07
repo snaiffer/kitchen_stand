@@ -4,15 +4,14 @@ baseurl=http://192.168.1.1/repos/os/
 enabled=1
 gpgcheck=0
 
-[rdbms]
-name=rdbms
-baseurl=http://192.168.1.1/repos/rdbms/
-enabled=1
-gpgcheck=0
-
 [1C]
 name=1C
 baseurl=http://192.168.1.1/repos/1C/
 enabled=1
 gpgcheck=0
 
+[sonda]
+name=sonda
+baseurl=http://192.168.1.1/repos/sonda/
+enabled=1
+gpgcheck=0

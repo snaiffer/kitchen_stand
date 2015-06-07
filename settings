@@ -1,5 +1,5 @@
 postgres_pass='123123'
-eth="eth1"
+eth="eth0"
 ip_server="192.168.1.1"
 name_server="server.local"
 subnet='192.168.1'

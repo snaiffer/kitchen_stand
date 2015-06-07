@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=autostart_ras
+Comment=autostart_ras
+Exec=sh -c '/opt/1C/v8.3/x86_64/ras cluster --daemon'

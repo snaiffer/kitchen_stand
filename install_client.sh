@@ -64,7 +64,7 @@ yum remove -y -q xfce4-panel xfce4-appfinder xfdesktop Thunar thunar-archive-plu
 check_status
 
 printf "Installing necessary packages... "
-yum install -y -q wmctrl 1C_Enterprise83-client-8.3.6-2014 &> /dev/null
+yum install -y -q wmctrl 1C_Enterprise83-client* &> /dev/null
 check_status
 
 printf "Coping autofullscreen, autostart_1c, gencalib (screen-calibrator)... "
@@ -100,9 +100,9 @@ check_status
 
 printf "for 1c... "
 echo "127.0.0.1 $(hostname)" >> /etc/hosts && \
-echo "$ip_server $name_server" >> /etc/hosts && \
-service srv1cv83 stop &> /dev/null && \
-chkconfig srv1cv83 off &> /dev/null
+echo "$ip_server $name_server" >> /etc/hosts #&& \
+#service srv1cv83 stop &> /dev/null && \
+#chkconfig srv1cv83 off &> /dev/null
 check_status
 
 #printf "Coping sonda.."
@@ -112,8 +112,9 @@ check_status
 #cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
 #check_status
 printf "Installing sonda... "
-rpm -i $dir_data/sonda/idTerminal-1.0-1.x86_64.rpm &> /dev/null && \
-cp -Rf $dir_data/sonda/*.ini /opt/sonda_client/ && \
+#rpm -i $dir_data/sonda/idTerminal-1.0-1.x86_64.rpm &> /dev/null && \
+#cp -Rf $dir_data/sonda/*.ini /opt/sonda_client/ && \
+yum install -y -q idTerminal* &> /dev/null && \
 chmod -R 777 /opt/sonda_client && \
 sed -i "s/address.*/address=$name_server/" /opt/sonda_client/terminal.ini
 check_status

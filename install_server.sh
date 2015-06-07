@@ -76,7 +76,8 @@ service $service_postgresql restart &> /dev/null
 check_status
 
 printf "Installing 1C... "
-yum install -y -q 1C_Enterprise83-ws* 1C_Enterprise83-server* 1C_Enterprise83-client* 1C_Enterprise83-common*  &> /dev/null
+yum install -y -q 1C_Enterprise83-ws* 1C_Enterprise83-server* 1C_Enterprise83-client* 1C_Enterprise83-common* aksusbd &> /dev/null && \
+chkconfig aksusbd on
 check_status
 
 printf "Installing other packages... "
@@ -168,15 +169,14 @@ check_status
 #cp -f $dir_data/80-futronic.rules /lib/udev/rules.d/
 #check_status
 printf "Installing sonda.."
-rpm -i $dir_data/sonda/idSonda-1.0-1.x86_64.rpm &> /dev/null && \
-cp -Rf $dir_data/sonda/*.ini /opt/sonda && \
-chmod -R 777 /opt/sonda && \
+#rpm -i $dir_data/sonda/idSonda-1.0-1.x86_64.rpm &> /dev/null && \
+#cp -Rf $dir_data/sonda/*.ini /opt/sonda && \
+yum install -y -q idSonda-* &> /dev/null &&\
+chmod -R 777 /opt/sonda
 check_status
 
-#printf "Setting noscreensaver,autostart_sonda_server... "
-#cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda_server.desktop} /etc/xdg/autostart/ && \
-printf "Setting noscreensaver... "
-cp -f ${dir_data}/{noscreensaver.desktop} /etc/xdg/autostart/ && \
+printf "Setting noscreensaver,autostart_sonda_server,autostart_ras... "
+cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda_server.desktop,autostart_ras.desktop} /etc/xdg/autostart/ && \
 chmod +x /etc/xdg/autostart/*
 check_status
 

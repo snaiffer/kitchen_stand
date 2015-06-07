@@ -1,14 +1,23 @@
 [os]
 name=os
 baseurl=file:///mnt/os/
+enabled=1
 gpgcheck=0
 
 [rdbms]
 name=rdbms
 baseurl=file:///mnt/rdbms/
+enabled=1
 gpgcheck=0
 
 [1C]
 name=1C
 baseurl=file:///mnt/1C/
+enabled=1
+gpgcheck=0
+
+[sonda]
+name=sonda
+baseurl=file:///mnt/sonda/
+enabled=1
 gpgcheck=0

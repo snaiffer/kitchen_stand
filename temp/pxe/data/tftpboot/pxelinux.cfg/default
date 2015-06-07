@@ -1,8 +1,0 @@
-timeout 600
-
-label Zarya
-kernel vmlinuz
-append initrd=/initrd.img 
-
-
-

@@ -1,0 +1,19 @@
+
+http://superuser.com/questions/22767/enable-system-beep-in-ubuntu
+===========================
+
+Edit /etc/modprobe.d/blacklist and remove these lines if they exist : (NOTE: You need to edit /etc/modprobe.d/blacklist.conf instead)
+
+# get rid of system beep
+blacklist pcspkr
+
+===========================
+
+sudo modprobe pcspkr
+
+$ lsmod | grep pcspkr 
+pcspkr 10496 0
+
+===========================
+
+sudo sh -c "echo -e '\a' > /dev/console"

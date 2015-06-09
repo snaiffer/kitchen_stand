@@ -1,30 +1,32 @@
 #!/bin/bash
 
 # Example:
-#	autobackup kitchen /var/lib/autobackup/rassvet
-#	autobackup kitchen
+#	autobackup mainDB /var/lib/autobackup/sonda
+#	autobackup mainDB
 
 db_name=$1
+db_name_postfix='.db'
 path_backups=$2
+source_dir='/opt/sonda'
 max_countBackup_d=7
 max_countBackup_w=5
 max_countBackup_m=$((12*3))
 
 if [ "$db_name" = "" ]; then
-  db_name="kitchen"
+  db_name="mainDB"
 fi
-su - postgres -c "psql -lqt | cut -d \| -f 1 | grep -w $db_name &> /dev/null"
+db_file_name=$db_name$db_name_postfix
+ls $source_dir | grep $db_file_name &> /dev/null
 if [ "$?" != "0" ]; then
   echo "Error: DB with such name isn't exist!"
   exit 1
 fi
 
 if [ "$path_backups" = "" ]; then
-  path_backups="/var/lib/autobackup/rassvet"
+  path_backups="/var/lib/autobackup/sonda"
 fi
 if [ ! -e $path_backups ]; then 
-  mkdir -p $path_backups && \
-  chown -R postgres:postgres $path_backups 
+  mkdir -p $path_backups
 fi
 
 translate_switch() {
@@ -55,7 +57,7 @@ date_stamp=`date +%Y%m%d --date='3600 seconds ago'`
 backup() {
   switch=`translate_switch $1`
 
-  su - postgres -c "pg_dump $db_name > $path_backups/\"${date_stamp}_${db_name}${switch}.dump\""
+  cp -f $source_dir/$db_file_name $path_backups/${date_stamp}_${db_name}${switch}.dump
   }
 
 # 

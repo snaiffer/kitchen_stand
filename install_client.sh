@@ -10,7 +10,7 @@ source $dir_script/settings
 printf "Setting for OS... "
 sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
 setenforce 0 && \
-sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
+# sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
 check_status
 
 printf "Setting for autologin... "

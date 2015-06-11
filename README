@@ -9,7 +9,13 @@ Disk: RAID1
 username: kadr
 passwd:   123
 
-) On Server as root run:
+) On Server as root:
+)) turn off selinux
+setenforce 0 && \
+sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
+sestatus
+reboot
+)) Run:
 ./install_server.sh
 
 ) Set BIOS on Terminals
@@ -31,7 +37,13 @@ username: term1
           term2
 passwd:   123
 
-) On Terminals as root run:
+) On Terminals as root:
+)) turn off selinux
+setenforce 0 && \
+sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
+sestatus
+reboot
+)) Run:
 ./install_client.sh
 
 ) Turn off PXE on Server

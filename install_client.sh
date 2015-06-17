@@ -8,21 +8,26 @@ source $dir_libs/general.sh
 source $dir_script/settings
 
 printf "Setting for OS... "
+echo && printf "\tturn off pam_gnome_keyring: for autologin... "
 sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
-setenforce 0 && \
-# sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
+check_status
+printf "\tselinux: permissive... "
+setenforce 0 && sleep 1 && \
+sed -i "s/SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config
+check_status
+printf "\tturn off temperature's sensors... "
+sed -i "s/kernel \/vmlinuz-2.6.*/& thermal.nocrt=1/" /etc/grub.conf
 check_status
 
 printf "Setting for autologin... "
 while true; do
-  echo
-  printf "\tEnter user name=" && read username && \
+  echo && printf "\tEnter user name=" && read username && \
   grep -w $username /etc/passwd &> /dev/null
-  if [[ "$?" = "0" ]]; then 
+  if [[ "$?" = "0" ]]; then
     break;
   else
     echo "Error: User with name $username isn't exist!"
-  fi; 
+  fi;
 done
 sed -i "s/# autologin.*/autologin=${username}/" /etc/lxdm/lxdm.conf
 check_status
@@ -100,9 +105,9 @@ check_status
 
 printf "for 1c... "
 echo "127.0.0.1 $(hostname)" >> /etc/hosts && \
-echo "$ip_server $name_server" >> /etc/hosts #&& \
-#service srv1cv83 stop &> /dev/null && \
-#chkconfig srv1cv83 off &> /dev/null
+echo "$ip_server $name_server" >> /etc/hosts && \
+service srv1cv83 stop &> /dev/null && \
+chkconfig srv1cv83 off &> /dev/null
 check_status
 
 #printf "Coping sonda.."

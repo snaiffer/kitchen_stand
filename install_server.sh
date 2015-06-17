@@ -10,8 +10,12 @@ source $dir_script/settings
 printf "Setting for OS... "
 #setsebool -P httpd_can_network_connect 1 && \
 #setsebool -P allow_ypbind 1
-#setenforce 0 && \
-#sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
+printf "\tselinux: permissive... "
+setenforce 0 && sleep 1 && \
+sed -i "s/SELINUX=enforcing/SELINUX=permissive/" /etc/selinux/config
+check_status
+printf "\tturn off temperature's sensors... "
+sed -i "s/kernel \/vmlinuz-2.6.*/& thermal.nocrt=1/" /etc/grub.conf
 check_status
 
 printf "Setting network... "

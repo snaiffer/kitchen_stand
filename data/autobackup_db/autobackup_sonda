@@ -14,7 +14,7 @@ max_countBackup_m=$((12*3))
 if [ "$path_source" = "" ]; then
   path_source='/opt/sonda'
 fi
-if [ ! -e $path_source ]; then 
+if [ ! -e $path_source ]; then
   echo "Error: can't find source dir!"
   exit 1
 fi
@@ -22,7 +22,7 @@ fi
 if [ "$path_backups" = "" ]; then
   path_backups="/var/lib/autobackup/sonda"
 fi
-if [ ! -e $path_backups ]; then 
+if [ ! -e $path_backups ]; then
   mkdir -p $path_backups
 fi
 
@@ -30,13 +30,13 @@ translate_switch() {
   of=$1
 
   case $of in
-  "days" | "d") 
+  "days" | "d")
     switch='_d'
     ;;
-  "weeks" | "w") 
+  "weeks" | "w")
     switch='_w'
     ;;
-  "months" | "m") 
+  "months" | "m")
     switch='_m'
     ;;
   *)
@@ -47,7 +47,6 @@ translate_switch() {
   echo $switch
   }
 
-# 
 # arg:	days, weeks, months
 # Ex,: count_backups "days"
 date_stamp=`date +%Y%m%d --date='3600 seconds ago'`
@@ -57,7 +56,6 @@ backup() {
   cd $path_source && tar -czf $path_backups/${date_stamp}_sondaDBs${switch}.dump.tar.gz *${db_name_postfix} &> /dev/null	# !!! cd
   }
 
-# 
 # arg:	days, weeks, months
 # Ex,: count_backups "days"
 count_backups() {
@@ -67,7 +65,6 @@ count_backups() {
   echo $res
   }
 
-# 
 # arg:	days, weeks, months
 # Ex,: remove_thefarthestBackup "day"
 remove_thefarthestBackup() {
@@ -80,7 +77,6 @@ remove_thefarthestBackup() {
 
   rm -f $path_backups/`ls $path_backups | grep --color=never "${switch}.dump$" | head -n 1`
   }
-
 
 backup "days"
 while [ `count_backups "days"` -gt $max_countBackup_d ]; do

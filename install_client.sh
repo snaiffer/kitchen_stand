@@ -74,7 +74,8 @@ check_status
 
 printf "Coping autofullscreen, autostart_1c, gencalib (screen-calibrator)... "
 cp -f ${dir_data}/{autofullscreen,autostart_1c,gencalib} /usr/bin/ && \
-chmod +x /usr/bin/{autofullscreen,autostart_1c,gencalib}
+chmod +x /usr/bin/{autofullscreen,autostart_1c,gencalib} && \
+sed -i "s/kitchen/$dbname_1C/" /usr/bin/autostart_1c
 check_status
 
 printf "Setttings for touchscreen... "

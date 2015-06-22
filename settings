@@ -4,6 +4,9 @@ ip_server="192.168.1.1"
 name_server="server.local"
 subnet='192.168.1'
 ip_tftpserver='192.168.1.1'
+dbname_postgresql='kitchen'
+dbname_1C='kitchen'
+dir_1C='/opt/1C/v8.3/x86_64'
 
 # for RDBMS Zarya and RDBMS Rassvet
 pkgs_postgres='postgresql-server postgresql postgresql-contrib'

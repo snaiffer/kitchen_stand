@@ -161,9 +161,10 @@ printf "for DrWeb..."
 yum install -y -q glibc.i686 &> /dev/null
 check_status
 
-printf "for 1c..."
-echo "127.0.0.1 $(hostname)" >> /etc/hosts
-chkconfig srv1cv83 on
+printf "for 1C..."
+echo "127.0.0.1 $(hostname)" >> /etc/hosts && \
+chkconfig srv1cv83 on && \
+$dir_1C/rac infobase create --cluster=`$dir_1C/rac cluster list | grep cluster | sed "s/cluster.*: //"` --name=$dbname_1C --create-database --dbms=PostgreSQL --db-server=$name_server --db-name=$dbname_postgresql --locale=ru --db-user=postgres --db-pwd=$postgres_pass
 check_status
 
 #printf "Coping sonda.."
@@ -194,7 +195,7 @@ check_status
 
 printf "Setting autobackup_db... "
 cd $dir_data/autobackup_db/
-./init.sh
+./init.sh $dbname_postgresql
 check_status
 
 reboot_request

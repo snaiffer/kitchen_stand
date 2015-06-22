@@ -1,24 +1,21 @@
 #!/bin/bash
 
 # Example:
-#	autobackup mainDB /var/lib/autobackup/sonda
-#	autobackup mainDB
+#	autobackup /opt/sonda /var/lib/autobackup/sonda
+#	autobackup
 
-db_name=$1
+path_source=$1
 db_name_postfix='.db'
 path_backups=$2
-source_dir='/opt/sonda'
 max_countBackup_d=7
 max_countBackup_w=5
 max_countBackup_m=$((12*3))
 
-if [ "$db_name" = "" ]; then
-  db_name="mainDB"
+if [ "$path_source" = "" ]; then
+  path_source='/opt/sonda'
 fi
-db_file_name=$db_name$db_name_postfix
-ls $source_dir | grep $db_file_name &> /dev/null
-if [ "$?" != "0" ]; then
-  echo "Error: DB with such name isn't exist!"
+if [ ! -e $path_source ]; then 
+  echo "Error: can't find source dir!"
   exit 1
 fi
 
@@ -57,7 +54,7 @@ date_stamp=`date +%Y%m%d --date='3600 seconds ago'`
 backup() {
   switch=`translate_switch $1`
 
-  cp -f $source_dir/$db_file_name $path_backups/${date_stamp}_${db_name}${switch}.dump
+  cd $path_source && tar -czf $path_backups/${date_stamp}_sondaDBs${switch}.dump.tar.gz *${db_name_postfix} &> /dev/null	# !!! cd
   }
 
 # 

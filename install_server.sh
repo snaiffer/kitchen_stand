@@ -175,12 +175,15 @@ check_status
 printf "Installing sonda.."
 #rpm -i $dir_data/sonda/idSonda-1.0-1.x86_64.rpm &> /dev/null && \
 #cp -Rf $dir_data/sonda/*.ini /opt/sonda && \
-yum install -y -q idSonda-* &> /dev/null &&\
-chmod -R 777 /opt/sonda
+yum install -y -q idSonda-* &> /dev/null && \
+chmod -R 777 /opt/sonda && \
+cp -f ${dir_data}/ras-server /etc/init.d/ && \
+service ras-server start &> /dev/null && \
+chkconfig ras-server on &> /dev/null
 check_status
 
-printf "Setting noscreensaver,autostart_sonda_server,autostart_ras... "
-cp -f ${dir_data}/{noscreensaver.desktop,autostart_sonda_server.desktop,autostart_ras.desktop} /etc/xdg/autostart/ && \
+printf "Setting noscreensaver,autostart_ras... "
+cp -f ${dir_data}/{noscreensaver.desktop,autostart_ras.desktop} /etc/xdg/autostart/ && \
 chmod +x /etc/xdg/autostart/*
 check_status
 

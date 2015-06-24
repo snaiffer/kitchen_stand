@@ -131,13 +131,13 @@ check_status
 
 printf "\tsetting simple kernel (for first boot)... "
 tftpboot='/var/lib/tftpboot'
-cp -f /usr/share/syslinux/pxelinux.0 $tftpboot/
-cp -f /usr/share/syslinux/menu.c32 $tftpboot/
+cp -f /usr/share/syslinux/pxelinux.0 $tftpboot/ && \
+cp -f /usr/share/syslinux/menu.c32 $tftpboot/ && \
 
-mkdir $tftpboot/rassvet/
-cp -f /mnt/os/images/pxeboot/{vmlinuz,initrd.img} $tftpboot/rassvet/
+mkdir $tftpboot/rassvet/ && \
+cp -f /mnt/os/images/pxeboot/{vmlinuz,initrd.img} $tftpboot/rassvet/ && \
 
-mkdir $tftpboot/pxelinux.cfg
+mkdir $tftpboot/pxelinux.cfg && \
 cat <<-EOF > $tftpboot/pxelinux.cfg/default
 # Меню, которое закачали
 default menu.c32
@@ -153,8 +153,15 @@ timeout 1   # seconds for making choose
 
 LABEL Rassvet
 kernel rassvet/vmlinuz
-append initrd=rassvet/initrd.img
+append initrd=rassvet/initrd.img ks=http://$ip_server/repos/ks-rassvet.cfg ksdevice=eth0
 EOF
+check_status
+
+printf "\tsetting kickstart... "
+cp -f $dir_data/ks-rassvet.cfg /mnt/ && \
+sed -i "s/192.168.1.1/$ip_server/g" /mnt/ks-rassvet.cfg &> /dev/null && \
+chmod +r /mnt/ks-rassvet.cfg
+check_status
 # PXE end
 
 printf "for DrWeb..."

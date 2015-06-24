@@ -7,7 +7,7 @@ dir_data_repos="$dir_script/data_repos"
 source $dir_libs/general.sh
 source $dir_script/settings
 
-printf "Setting for OS... "
+echo "Setting for OS... "
 #setsebool -P httpd_can_network_connect 1 && \
 #setsebool -P allow_ypbind 1
 printf "\tselinux: permissive... "
@@ -66,7 +66,7 @@ printf "Installing postgresql packages... "
 yum install -y -q $pkgs_postgres &> /dev/null
 check_status
 
-printf "Setting postgresql... "
+echo "Setting postgresql... "
 change_passwd postgres $postgres_pass && \
 chkconfig $service_postgresql on &> /dev/null && \
 service $service_postgresql initdb &> /dev/null && \
@@ -164,6 +164,7 @@ check_status
 printf "for 1C..."
 echo "127.0.0.1 $(hostname)" >> /etc/hosts && \
 chkconfig srv1cv83 on && \
+service srv1cv83 start && \
 $dir_1C/rac infobase create --cluster=`$dir_1C/rac cluster list | grep cluster | sed "s/cluster.*: //"` --name=$dbname_1C --create-database --dbms=PostgreSQL --db-server=$name_server --db-name=$dbname_postgresql --locale=ru --db-user=postgres --db-pwd=$postgres_pass
 check_status
 

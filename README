@@ -10,11 +10,7 @@ username: kadr
 passwd:   123
 
 ) On Server as root:
-)) turn off selinux
-setenforce 0 && \
-sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
-sestatus
-reboot
+)) Insert the flash with licence of 1C
 )) Run:
 ./install_server.sh
 
@@ -38,11 +34,6 @@ username: term1
 passwd:   123
 
 ) On Terminals as root:
-)) turn off selinux
-setenforce 0 && \
-sed -i "s/SELINUX=.*/SELINUX=permissive/" /etc/sysconfig/selinux
-sestatus
-reboot
 )) Run:
 ./install_client.sh
 

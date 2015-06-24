@@ -7,8 +7,8 @@ dir_data_repos="$dir_script/data_repos"
 source $dir_libs/general.sh
 source $dir_script/settings
 
-printf "Setting for OS... "
-echo && printf "\tturn off pam_gnome_keyring: for autologin... "
+echo "Setting for OS... "
+printf "\tturn off pam_gnome_keyring: for autologin... "
 sed -i "/pam_gnome_keyring.so/d" /etc/pam.d/lxdm
 check_status
 printf "\tselinux: permissive... "

@@ -1,6 +1,5 @@
 *.iso
 *~
-data_repos/mnt/*
 *.swp
 *.png
 *.rpm
